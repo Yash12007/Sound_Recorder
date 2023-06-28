@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yash12007</title>
+  <link rel="icon" href="https://icons.getbootstrap.com/assets/icons/box.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <style>
+    body {
+      background: black;
+      color: white;
+    }
+    #loading {
+      background-image: linear-gradient(to right, red, yellow, green, blue);
+      height: 3px;
+      width: 100%;
+      position: absolute;
+      top: 58px;
+      left: 0px;
+      animation: slideFromLeft 0.5s ease-in-out;
+    }
+    @keyframes slideFromLeft {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(0%);
+      }
+    }
+    .equalizer {
+      height: 200px;
+      background-color: #333;
+    }
+    .bar-thress, .bar-equ, .bar-vol, .bar-bass{
+      height: 200px;
+      width: 30px;
+      background-color: white;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://yash12007.github.io/home">
+        <i class="bi bi-box"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+        </svg>
+        Sound Recorder
+      </a>
+    </div>
+  </nav>
+  <div id="loading"></div>
+  <audio id="audioElement" controls style="display: none; opacity: 0; position: absolute; top: 0px; left: 0px;" class="btn"></audio>
+  <a id="Download" style="opacity: 0; background-color: black; border-width: 0;" download="Yash12007-Sound_Recorder.mp3">
+    <i class="bi bi-arrow-down-circle"></i>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+    </svg>
+    Download Audio
+  </a>
+  <img src="https://i.gifer.com/Nt6v.gif" alt="" width="50%" height="50%" style="opacity: 0;" id="gif">
+  <br><br>
+  <div class="mb-3" style="position: absolute; bottom: 55px; left: 0px; display: grid; place-items: center;" data-bs-theme="dark">
+    <input class="form-control" type="file" id="formFile">
+    <button class="btn" style="color: white;" onclick="readFile()">Add File as script to read</button>
+    <textarea class="form-control" placeholder="Script will appear here" id="floatingTextarea2" style="height: 100px"></textarea>
+  </div>
+  <div id="sector" style="position: absolute; left: 0; bottom: 50px; background-color: rgb(153, 0, 255); height: 3px; width: 100%;"></div>
+  <div id="bottom" style="position: absolute; bottom: 0; left: 0; height: 50px; width: 100%; background-color: rgb(0, 0, 0); display: flex; color: white;">
+    <button onclick="Play()" class="btn" style="color: white;">
+      <i class="bi bi-play-fill"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+      </svg>
+      Play
+    </button>   
+    <button onclick="Pause()" class="btn" style="color: white;">
+      <i class="bi bi-pause"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause" viewBox="0 0 16 16">
+        <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+      </svg>
+      Pause
+    </button>   
+    <button id="recordButton" class="btn" style="color: red;">
+      <i class="bi bi-record-circle"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+      </svg>
+      Record
+    </button>
+    <button id="stopButton" class="btn" style="color: rgb(0, 0, 255);">
+      <i class="bi bi-stop-circle"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-stop-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3z"/>
+      </svg>
+      Stop
+    </button>
+  </div>
+  <script>
+    let recordButton = document.getElementById('recordButton');
+    let stopButton = document.getElementById('stopButton');
+    let mediaRecorder; // Declare mediaRecorder variable
+    let recordedChunks = [];
+
+    recordButton.addEventListener('click', startRecording);
+    stopButton.addEventListener('click', stopRecording);
+
+    function readFile() {
+      var fileInput = document.getElementById("formFile");
+      var fileContentElement = document.getElementById("floatingTextarea2");
+
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(event) {
+        var fileContent = event.target.result;
+        fileContentElement.textContent = fileContent;
+      };
+
+      reader.readAsText(file);
+    }
+
+    function Play(){
+        document.getElementById("audioElement").play();
+    }
+    function Pause(){
+        document.getElementById("audioElement").pause();
+    }
+    function startRecording() {
+      document.getElementById("gif").setAttribute("style", "opacity:1;");
+      recordedChunks = [];
+      let constraints = { audio: true };
+
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(function (stream) {
+          mediaRecorder = new MediaRecorder(stream); // Assign value to mediaRecorder
+
+          mediaRecorder.addEventListener('dataavailable', function (event) {
+            if (event.data.size > 0) {
+              recordedChunks.push(event.data);
+            }
+          });
+
+          mediaRecorder.addEventListener('stop', function () {
+            let blob = new Blob(recordedChunks, { type: 'audio/ogg; codecs=opus' });
+            let audioURL = URL.createObjectURL(blob);
+
+            let audioElement = document.getElementById('audioElement');
+            audioElement.src = audioURL;
+            document.getElementById("Download").href = audioURL;
+            audioElement.style.display = 'block';
+
+            recordButton.disabled = false;
+            stopButton.disabled = true;
+          });
+
+          mediaRecorder.start();
+          recordButton.disabled = true;
+          stopButton.disabled = false;
+        })
+        .catch(function (error) {
+          console.log('Error accessing microphone: ' + error);
+          alert("An error occured, Please try again!");
+        });
+    }
+
+    function stopRecording() {
+      mediaRecorder.stop();
+      document.getElementById("gif").setAttribute("style", "opacity:0;");
+      document.getElementById("Download").setAttribute("style", "opacity:1;");
+    }
+  </script>
+</body>
+</html>
